@@ -94,3 +94,6 @@ var Yz = (function(){
 		isMobile : isMobile
 	};
 })();
+
+
+// end of yz.js file
