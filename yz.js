@@ -83,8 +83,21 @@ var Yz = (function() {
 		return true;
 	}
 
+	/**
+	 * 判断是否为车牌号（高级版）
+	 * 1.常规车牌号：仅允许以汉字开头，后面可录入六个字符，由大写英文字母和阿拉伯数字组成。如：粤B12345；
+	 * 2.武警车牌：允许前两位为大写英文字母，后面可录入七个字符，由大写英文字母和阿拉伯数字组成，其中第三位可录汉字也可录大写英文字母及阿拉伯数字，如：WJ01警0081、WJ0112345。
+	 * 3.最后一个为汉字的车牌：允许以汉字开头，后面可录入六个字符，前五位字符，由大写英文字母和阿拉伯数字组成，而最后一个字符为汉字，汉字包括“挂”、“学”、“警”、“军”、“港”、“澳”。如：粤Z1234港。
+	 * 4.新军车牌：以两位为大写英文字母开头，后面以5位阿拉伯数字组成。如：BA12345。
+	 * 5.黑龙江车牌存在08或38开头的情况
+	 *
+	 * @param [string] str 要验证的车牌号字符串
+	 * @return [boolean] 符合车牌号格式返回true,否则返回false
+	 */
 	var isAdvancedLicensePlate = function(str) {
-
+		var pattern =
+			/(^[\u4E00-\u9FA5]{1}[A-Z]{1}[A-Z0-9]{5}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/;
+		return pattern.test(str);
 	}
 
 	// 判断是否为敏感词汇
@@ -289,7 +302,8 @@ var Yz = (function() {
 		isSensitiveWord: isSensitiveWord,
 		isEmail: isEmail,
 		isMobile: isMobile,
-		isLicensePlate: isLicensePlate
+		isLicensePlate: isLicensePlate,
+		isAdvancedLicensePlate: isAdvancedLicensePlate
 	};
 })();
 
